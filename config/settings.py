@@ -27,7 +27,9 @@ DEBUG = config('DEBUG', cast=bool)
 SECRET_KEY = config('SECRET_KEY')
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['sosioloji.onrender.com','localhost', '127.0.0.1'] 
+# ALLOWED_HOSTS = ['sosioloji.onrender.com','localhost', '127.0.0.1'] 
+ALLOWED_HOSTS = ['sosoiloji.onrender.com', 'localhost', '127.0.0.1']
+
 
 # Allow all (development only)
 # CORS_ALLOW_ALL_ORIGINS = True
