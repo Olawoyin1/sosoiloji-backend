@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+from decouple import config
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,12 +20,25 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-n^!hz2x-@k(mrx%(w2&eybf#!!v%nk53*zcmee+7@bvav4vw92'
+DEBUG = config('DEBUG', cast=bool)
+SECRET_KEY = config('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['sosioloji.onrender.com','localhost', '127.0.0.1'] 
 
-ALLOWED_HOSTS = []
+# Allow all (development only)
+# CORS_ALLOW_ALL_ORIGINS = True
+
+# OR allow specific frontend (recommended for production)
+CORS_ALLOWED_ORIGINS = [
+    "https://example.com",
+    "https://sub.example.com",
+    "http://localhost:3000",
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "https://sosioloji.africa",
+    "https://sosioloji.netlify.app",
+]
 
 
 # Application definition
