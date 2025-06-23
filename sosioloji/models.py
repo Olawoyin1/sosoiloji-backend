@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from django.utils import timezone
 
 class BlogPost(models.Model):
     title = models.CharField(max_length=255)
@@ -12,7 +13,7 @@ class BlogPost(models.Model):
     image = models.URLField(blank=True, null=True)
     video = models.URLField(blank=True, null=True)
     contentImages = models.JSONField(blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=timezone.now)
 
     def save(self, *args, **kwargs):
         if not self.slug:
