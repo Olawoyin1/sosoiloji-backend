@@ -1,50 +1,45 @@
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import BlogPost
-from .serializers import BlogPostSerializer
+from django.shortcuts import get_object_or_404
+from .models import Post
+from .serializers import PostSerializer
 
-class BlogPostListCreateAPIView(APIView):
+
+# GET all posts & POST new post
+class PostListCreateAPIView(APIView):
     def get(self, request):
-        posts = BlogPost.objects.all()
-        serializer = BlogPostSerializer(posts, many=True)
+        posts = Post.objects.all().order_by("-created_at")
+        serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = BlogPostSerializer(data=request.data)
+        serializer = PostSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            post = serializer.save()  # slug is generated in model
+            return Response(PostSerializer(post).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class BlogPostDetailAPIView(APIView):
-    def get_object(self, pk):
-        try:
-            return BlogPost.objects.get(pk=pk)
-        except BlogPost.DoesNotExist:
-            return None
 
-    def get(self, request, pk):
-        post = self.get_object(pk)
-        if not post:
-            return Response({'error': 'Not found'}, status=status.HTTP_404_NOT_FOUND)
-        serializer = BlogPostSerializer(post)
+# GET single post by slug, UPDATE post by slug, DELETE post by slug
+class PostDetailAPIView(APIView):
+    def get_object(self, slug):
+        return get_object_or_404(Post, slug=slug)
+
+    def get(self, request, slug):
+        post = self.get_object(slug)
+        serializer = PostSerializer(post)
         return Response(serializer.data)
 
-    def put(self, request, pk):
-        post = self.get_object(pk)
-        if not post:
-            return Response({'error': 'Not found'}, status=status.HTTP_404_NOT_FOUND)
-        serializer = BlogPostSerializer(post, data=request.data)
+    def put(self, request, slug):
+        post = self.get_object(slug)
+        serializer = PostSerializer(post, data=request.data, partial=True)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save()  # Note: slug is not regenerated here
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pk):
-        post = self.get_object(pk)
-        if not post:
-            return Response({'error': 'Not found'}, status=status.HTTP_404_NOT_FOUND)
+    def delete(self, request, slug):
+        post = self.get_object(slug)
         post.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({"message": "Post deleted"}, status=status.HTTP_204_NO_CONTENT)

@@ -1,9 +1,11 @@
-
 from rest_framework import serializers
-from .models import BlogPost
+from .models import Post
 
-class BlogPostSerializer(serializers.ModelSerializer):
+class PostSerializer(serializers.ModelSerializer):
     class Meta:
-        model = BlogPost
-        fields = '__all__'
-        read_only_fields = ['slug'] 
+        model = Post
+        fields = [
+            "id", "title", "author", "category", "subtag", "slug",
+            "quote", "body", "image", "video", "content_images", "blogcontentvideo", "created_at"
+        ]
+        # read_only_fields = ["id",]
