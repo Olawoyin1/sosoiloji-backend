@@ -9,9 +9,20 @@ from .serializers import PostSerializer
 # GET all posts & POST new post
 class PostListCreateAPIView(APIView):
     def get(self, request):
+        platform = request.GET.get("platform")  # sosioloji or wiseandsane
         posts = Post.objects.all().order_by("-created_at")
+        if platform:
+            posts = posts.filter(platforms__contains=[platform])
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
+    
+    
+    
+
+    # def get(self, request):
+    #     posts = Post.objects.all().order_by("-created_at")
+    #     serializer = PostSerializer(posts, many=True)
+    #     return Response(serializer.data)
 
     def post(self, request):
         serializer = PostSerializer(data=request.data)
