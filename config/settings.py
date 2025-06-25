@@ -43,6 +43,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5174",
     "https://sosioloji.africa",
     "https://sosioloji.netlify.app",
+    "https://wiseandsane.netlify.app",
 ]
 
 
