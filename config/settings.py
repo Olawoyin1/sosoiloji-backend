@@ -112,16 +112,25 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #     )
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres.ubumuyjxsiqizddeobec',
-        'PASSWORD': 'olawoyin',
-        'HOST': 'aws-0-eu-west-2.pooler.supabase.com',  # e.g. db.supabase.co
-        'PORT': '5432',
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'postgres',
+#         'USER': 'postgres.ubumuyjxsiqizddeobec',
+#         'PASSWORD': 'olawoyin',
+#         'HOST': 'aws-0-eu-west-2.pooler.supabase.com', 
+#         'PORT': '5432',
         
-    }
+#     }
+# }
+
+
+DATABASES = {
+    'default': dj_database_url.parse(
+        config('DATABASE_URL'),
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
 
 
