@@ -105,13 +105,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # }
 
 
-# DATABASES = {
-#     'default': dj_database_url.parse(
-#         config('DATABASE_URL'),
-#         conn_max_age=600,
-#     )
-# }
-
+# ======SUPABASE DATABASE========
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
@@ -131,6 +125,16 @@ DATABASES = {
         conn_max_age=600,
         ssl_require=True
     )
+}
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": config("REDIS_URL"),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
 }
 
 
@@ -179,3 +183,4 @@ MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
