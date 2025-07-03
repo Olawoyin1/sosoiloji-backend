@@ -133,6 +133,7 @@ CACHES = {
         "LOCATION": config("REDIS_URL"),
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "IGNORE_EXCEPTIONS": True,  # prevents crash if Redis is unavailable
         }
     }
 }
