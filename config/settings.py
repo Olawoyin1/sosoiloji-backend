@@ -12,7 +12,12 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from decouple import config
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+from urllib.parse import urlparse, parse_qsl
 import dj_database_url
+
+load_dotenv()
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -106,26 +111,44 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 # ======SUPABASE DATABASE========
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres.ubumuyjxsiqizddeobec',
+        'PASSWORD': 'olawoyin',
+        'HOST': 'aws-0-eu-west-2.pooler.supabase.com', 
+        'PORT': '5432',
+        
+    }
+}
+
+# ======= RENDER DATABASE ==========
+# DATABASES = {
+#     'default': dj_database_url.parse(
+#         config('DATABASE_URL'),
+#         conn_max_age=600,
+#         ssl_require=True
+#     )
+# }
+
+
+# tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'postgres',
-#         'USER': 'postgres.ubumuyjxsiqizddeobec',
-#         'PASSWORD': 'olawoyin',
-#         'HOST': 'aws-0-eu-west-2.pooler.supabase.com', 
-#         'PORT': '5432',
-        
+#         'NAME': tmpPostgres.path.replace('/', ''),
+#         'USER': tmpPostgres.username,
+#         'PASSWORD': tmpPostgres.password,
+#         'HOST': tmpPostgres.hostname,
+#         'PORT': 5432,
+#         'OPTIONS': dict(parse_qsl(tmpPostgres.query)),
 #     }
 # }
 
 
-DATABASES = {
-    'default': dj_database_url.parse(
-        config('DATABASE_URL'),
-        conn_max_age=600,
-        ssl_require=True
-    )
-}
+
 
 CACHES = {
     "default": {
