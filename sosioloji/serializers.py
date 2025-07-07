@@ -7,10 +7,7 @@ class PostSerializer(serializers.ModelSerializer):
         fields = [
             "id", "title", "author", "category", "subtag", "slug",
             "quote", "body", "image", "video", "content_images", "blogcontentvideo",
-            "created_at", "platforms",  # <-- Add this line
+            "created_at", "platforms",  
         ]
-        # fields = [
-        #     "id", "title", "author", "category", "subtag", "slug",
-        #     "quote", "body", "image", "video", "content_images", "blogcontentvideo", "created_at"
-        # ]
-        # read_only_fields = ["id",]
+        read_only_fields = ["slug", "created_at"]
+        
