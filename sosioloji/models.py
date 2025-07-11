@@ -21,6 +21,9 @@ class Post(models.Model):
     video = models.URLField(blank=True)
     content_images = models.JSONField(default=list, blank=True)
     blogcontentvideo = models.URLField(blank=True)
+    
+    callout = models.JSONField(blank=True, null=True)
+    product_card = models.JSONField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
