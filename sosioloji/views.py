@@ -85,4 +85,9 @@ class PostDetailAPIView(APIView):
     def delete(self, request, slug):
         post = self.get_object(slug)
         post.delete()
+        # Invalidate all cached lists (platform-specific + all)
+        cache.delete("posts_all")
+        cache.delete("posts_sosioloji")
+        cache.delete("posts_wiseandsane")
         return Response({"message": "Post deleted"}, status=status.HTTP_204_NO_CONTENT)
+    
